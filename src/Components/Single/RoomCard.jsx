@@ -5,11 +5,9 @@ const RoomCard = ({ room }) => {
 
     return (
         <>
-
             <div
                 key={room.id}
-                className="bg-white rounded-lg p-5 border shadow-lg overflow-hidden transform transition-all duration-300"
-            >
+                className="bg-white rounded-lg p-5 border shadow-lg overflow-hidden transform transition-all duration-300">
                 <img
                     src={room.image}
                     alt={room.name}

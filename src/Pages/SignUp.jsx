@@ -5,6 +5,7 @@ import RegisterAnimation from '../assets/register.json';
 import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
 import { FcGoogle } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 
 const pageVariants = {
     initial: { opacity: 0 },
@@ -13,6 +14,7 @@ const pageVariants = {
 };
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const { createUser, googleLogin } = useContext(AuthContext);
 
     const handleSignUp = (e) => {
@@ -23,6 +25,7 @@ const SignUp = () => {
         createUser(email, password)
             .then((result) => {
                 console.log(result.user);
+                navigate('/')
             })
             .catch((error) => {
                 alert(error.message);
