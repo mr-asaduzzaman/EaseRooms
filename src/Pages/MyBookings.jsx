@@ -135,12 +135,12 @@ const MyBookings = () => {
                     setReviewModal(null); // Close modal
                     setReviewData({ rating: 0, comment: "" }); // Reset review data
                 } else {
-                    toast.error("Failed to submit the review.");
+                    alert("Failed to submit the review.");
                 }
             })
             .catch((error) => {
                 console.error("Error submitting review:", error);
-                toast.error("An error occurred while submitting the review.");
+                alert("An error occurred while submitting the review.");
             });
     };
 

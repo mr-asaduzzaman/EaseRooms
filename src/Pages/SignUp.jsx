@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { motion } from 'framer-motion';
 import Lottie from 'lottie-react';
 import RegisterAnimation from '../assets/register.json';
-import { useContext } from 'react';
 import AuthContext from '../Context/AuthContext';
 import { FcGoogle } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify'; // Import toast for notifications
 
 const pageVariants = {
     initial: { opacity: 0 },
@@ -14,18 +14,47 @@ const pageVariants = {
 };
 
 const SignUp = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const { createUser, googleLogin } = useContext(AuthContext);
+    const [error, setError] = useState("");
+
+    // Password validation function
+    const validatePassword = (password) => {
+        const upperCasePattern = /[A-Z]/;
+        const lowerCasePattern = /[a-z]/;
+        const minLength = 6;
+
+        if (!upperCasePattern.test(password)) {
+            return "Password must contain at least one uppercase letter.";
+        }
+        if (!lowerCasePattern.test(password)) {
+            return "Password must contain at least one lowercase letter.";
+        }
+        if (password.length < minLength) {
+            return "Password must be at least 6 characters long.";
+        }
+        return ""; // No error
+    };
 
     const handleSignUp = (e) => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
+
+        // Validate the password
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            setError(passwordError); // Show error message
+            toast.error(passwordError); // Show error toast
+            return; // Stop the signup process if password is invalid
+        }
+
+        // If validation is successful, proceed with user creation
         createUser(email, password)
             .then((result) => {
                 console.log(result.user);
-                navigate('/')
+                navigate('/');
             })
             .catch((error) => {
                 alert(error.message);
@@ -34,13 +63,14 @@ const SignUp = () => {
 
     const handleGoogleSignUp = () => {
         googleLogin()
-        .then((result) => {
-            console.log(result.user);
-        })
-        .catch((error) => {
-            alert(error.message);
-        });
-    }
+            .then((result) => {
+                console.log(result.user);
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
+    };
+
     return (
         <motion.div
             initial="initial"
@@ -95,13 +125,14 @@ const SignUp = () => {
                                 required
                             />
                         </div>
+                        {error && <p className="text-red-500 text-sm mt-2">{error}</p>} {/* Show error message */}
                         <div className="form-control mt-6">
                             <button className="btn text-white font-bold bg-gradient-to-tl from-gray-400 to-gray-800">
                                 Register
                             </button>
                             <br />
                             <div onClick={handleGoogleSignUp} className="btn btn-outline font-bold grayscale">
-                            <FcGoogle /> Sign in with google
+                                <FcGoogle /> Sign in with Google
                             </div>
                         </div>
                     </form>

@@ -36,6 +36,7 @@ const SignIn = () => {
         googleLogin()
             .then((result) => {
                 console.log(result.user);
+                Navigate(from)
             })
             .catch((error) => {
                 alert(error.message);
