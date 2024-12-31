@@ -12,7 +12,6 @@ const Navbar = () => {
         <button className='btn btn-sm btn-outline bg-gradient-to-bl from-gray-900 to-gray-500 text-gray-300'><Link to='/'>Home</Link></button>
         <button className='btn btn-sm btn-outline bg-gradient-to-bl from-gray-900 to-gray-500 text-gray-300'><Link to='/rooms'>Rooms</Link></button>
         <button className='btn btn-sm btn-outline bg-gradient-to-bl from-gray-900 to-gray-500 text-gray-300'><Link to='/myBookings'>My Bookings</Link></button>
-        <button className='btn btn-sm btn-outline bg-gradient-to-bl from-gray-900 to-gray-500 text-gray-300'><Link to='/Note'>My Bookings</Link></button>
         <button className='btn btn-sm btn-outline bg-gradient-to-bl from-gray-900 to-gray-500 text-gray-300'><Link to='/aboutUs'>About us</Link></button>
     </div>
     return (

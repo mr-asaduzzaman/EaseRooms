@@ -9,6 +9,7 @@ import MyBookings from "../Pages/MyBookings";
 import AboutUs from "../Pages/AboutUs";
 import Rooms from "../Pages/Rooms";
 import RoomDetails from "../Pages/RoomDetails";
+import Reviews from "../Components/Single/Reviews";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
         path: "/rooms",
         element: <Rooms></Rooms>
       },
+      {
+        path: "/reviews",
+        element: <Reviews></Reviews>,
+        loader: () => fetch('http://localhost:5000/Reviews')
+      },      
       {
         path: "/signIn",
         element: <SignIn></SignIn>
