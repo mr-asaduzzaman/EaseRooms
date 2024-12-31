@@ -1,21 +1,31 @@
-import React, { useContext, useState } from "react";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthContext from "../Context/AuthContext";
+import { div } from "framer-motion/client";
 
 const RoomDetails = () => {
     const room = useLoaderData();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(null);
     const [isBooked, setIsBooked] = useState(false);
-
     const { user } = useContext(AuthContext);
     const { _id, name, image, price, reviews, description, rating, beds, occupancy, size, amenities } = room;
+    const [bookedRooms, setBookedRooms] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/BookedRooms`)
+            .then((res) => res.json())
+            .then((data) => setBookedRooms(data))
+            .catch((error) => console.error("Error fetching booked rooms:", error));
+    }, []);
+
+    const isRoomBooked = bookedRooms.some((bookedRoom) => bookedRoom.roomId === _id);
 
     const handleBookNow = () => {
-        if (isBooked) {
+        if (isRoomBooked || isBooked) {
             alert("This room is already booked!");
             return;
         }
@@ -53,7 +63,7 @@ const RoomDetails = () => {
                 setIsBooked(true);
                 alert("Room successfully booked!");
                 setIsModalOpen(false);
-                navigate('/myBookings')
+                navigate('/myBookings');
             })
             .catch((error) => {
                 alert("Something went wrong. Please try again later.");
@@ -91,14 +101,21 @@ const RoomDetails = () => {
                         </ul>
                     </div>
                     <button
-                        className={`btn w-full ${isBooked ? "bg-gray-500" : "bg-green-600"} text-white my-5 hover:bg-black`}
+                        className={`btn w-full ${isRoomBooked || isBooked ? "bg-gray-200" : "bg-green-600"} text-white my-5 hover:bg-black`}
                         onClick={handleBookNow}
-                        disabled={isBooked}
+                        disabled={isRoomBooked || isBooked}
                     >
-                        {isBooked ? "Booked" : "Book Now"}
+                        {isRoomBooked || isBooked ? "Already Booked" : "Book Now"}
                     </button>
                 </div>
             </div>
+
+            {isRoomBooked || isBooked ? <div className="flex items-center justify-center mb-5">
+                <Link to='/rooms'>
+                    <button className="btn bg-green-400">Back To Rooms</button>
+                </Link>
+            </div> : <div></div>}
+
 
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">

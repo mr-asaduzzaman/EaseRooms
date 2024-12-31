@@ -25,7 +25,7 @@ const RoomCard = ({ room }) => {
                     </div>
                 </div>
                 <Link to={`/rooms/${room._id}`}>
-                    <button className='btn w-full bg-black text-white hover:bg-gray-800'>Book Now</button>
+                    <button className='btn w-full bg-black text-white hover:bg-gray-800'>View Details</button>
                 </Link>
             </div>
         </>

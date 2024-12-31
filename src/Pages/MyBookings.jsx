@@ -2,18 +2,69 @@ import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../Context/AuthContext';
 import { MdDeleteForever, MdOutlineReviews } from 'react-icons/md';
 import { FaRegEdit } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
     const [rooms, setRooms] = useState([]);
+    const [selectedBooking, setSelectedBooking] = useState(null);
+    const [newDate, setNewDate] = useState("");
 
     useEffect(() => {
         fetch(`http://localhost:5000/BookedRooms?email=${user.email}`)
             .then((res) => res.json())
             .then((data) => {
                 setRooms(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching rooms:", error);
+                toast.error("Failed to fetch booking data.");
             });
     }, [user.email]);
+
+    const handleUpdate = (booking) => {
+        setSelectedBooking(booking); // Open the modal with the selected booking
+    };
+
+    const handleDateChange = (e) => {
+        setNewDate(e.target.value);
+    };
+
+    const handleSaveUpdate = () => {
+        if (!newDate) {
+            toast.error("Please select a new booking date!");
+            return;
+        }
+
+        // Make the PATCH request to update the booking date
+        fetch(`http://localhost:5000/BookedRooms/${selectedBooking.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ bookingDate: newDate }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.modifiedCount > 0) {
+                    toast.success("Booking date updated successfully!");
+                    // Update the UI by mapping the rooms and updating the selected booking
+                    setRooms((prevRooms) =>
+                        prevRooms.map((room) =>
+                            room.id === selectedBooking.id 
+                        )
+                    );
+                    setSelectedBooking(null); // Close the modal
+                    setNewDate(""); // Clear the date input field
+                } else {
+                    toast.error("Failed to update booking date.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error updating booking date:", error);
+                toast.error("An error occurred while updating the booking.");
+            });
+    };
 
     return (
         <div className="p-6">
@@ -70,26 +121,23 @@ const MyBookings = () => {
                                 <td className="py-3 px-4 text-center">{room.beds}</td>
                                 <td className="py-3 px-4 text-center relative">
                                     <div className="flex gap-4 justify-center">
-
-
-                                        {/* Icons */}
                                         <button className="relative flex flex-col items-center group">
                                             <MdOutlineReviews className="text-blue-600 hover:text-red-800 text-2xl" />
-                                            {/* Show Review text on hover */}
                                             <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                 Review
                                             </span>
                                         </button>
-                                        <button className="relative flex flex-col items-center group">
+                                        <button
+                                            onClick={() => handleUpdate(room)}
+                                            className="relative flex flex-col items-center group"
+                                        >
                                             <FaRegEdit className="text-green-600 hover:text-red-800 text-2xl" />
-                                            {/* Show Edit text on hover */}
                                             <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                Edit
+                                                Update
                                             </span>
                                         </button>
                                         <button className="relative flex flex-col items-center group">
                                             <MdDeleteForever className="text-red-600 hover:text-red-800 text-2xl" />
-                                            {/* Show Delete text on hover */}
                                             <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                 Delete
                                             </span>
@@ -101,6 +149,38 @@ const MyBookings = () => {
                     </tbody>
                 </table>
             </div>
+
+            {/* Modal for Updating Booking Date */}
+            {selectedBooking && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <h3 className="text-lg font-bold">Update Booking Date</h3>
+                        <p className="py-4">
+                            Current Date: <strong>{selectedBooking.bookingDate}</strong>
+                        </p>
+                        <input
+                            type="date"
+                            value={newDate}
+                            onChange={handleDateChange}
+                            className="input input-bordered w-full"
+                        />
+                        <div className="modal-action">
+                            <button
+                                onClick={handleSaveUpdate}
+                                className="btn btn-primary"
+                            >
+                                Save
+                            </button>
+                            <button
+                                onClick={() => setSelectedBooking(null)}
+                                className="btn btn-secondary"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
