@@ -3,12 +3,17 @@ import AuthContext from '../Context/AuthContext';
 import { MdDeleteForever, MdOutlineReviews } from 'react-icons/md';
 import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
+import ReactStars from "react-stars";
 
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
+    const [reviews, setReviews] = useState([])
     const [rooms, setRooms] = useState([]);
     const [selectedBooking, setSelectedBooking] = useState(null);
     const [newDate, setNewDate] = useState("");
+    const [reviewModal, setReviewModal] = useState(null);
+    const [reviewData, setReviewData] = useState({ rating: 0, comment: "" });
 
     useEffect(() => {
         fetch(`http://localhost:5000/BookedRooms?email=${user.email}`)
@@ -37,7 +42,7 @@ const MyBookings = () => {
         }
 
         // Make the PATCH request to update the booking date
-        fetch(`http://localhost:5000/BookedRooms/${selectedBooking.id}`, {
+        fetch(`http://localhost:5000/BookedRooms/${selectedBooking._id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +56,7 @@ const MyBookings = () => {
                     // Update the UI by mapping the rooms and updating the selected booking
                     setRooms((prevRooms) =>
                         prevRooms.map((room) =>
-                            room.id === selectedBooking.id 
+                            room._id === selectedBooking._id ? { ...room, bookingDate: newDate } : room
                         )
                     );
                     setSelectedBooking(null); // Close the modal
@@ -66,6 +71,91 @@ const MyBookings = () => {
             });
     };
 
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/BookedRooms/${id}`, {
+                    method: 'DELETE',
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.deletedCount > 0) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your Booking has been canceled.",
+                                icon: "success"
+                            });
+                            setRooms(rooms.filter(room => room._id !== id)); // Update UI after deletion
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting booking:", error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "There was an issue deleting your booking.",
+                            icon: "error"
+                        });
+                    });
+            }
+        });
+    };
+    const handleReviewSubmit = () => {
+        if (!reviewData.rating || !reviewData.comment) {
+            toast.error("Please provide a rating and a comment.");
+            return;
+        }
+
+        const reviewPayload = {
+            roomId: reviewModal._id,
+            username: user.email,
+            rating: reviewData.rating,
+            comment: reviewData.comment,
+            timestamp: new Date().toISOString(),
+        };
+
+        fetch(`http://localhost:5000/reviews`, {
+            method: "POST",
+            headers:
+                { "Content-Type": "application/json" },
+            body: JSON.stringify(reviewPayload),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+                if (data.insertedId) {
+                    alert("Review submitted successfully!");
+                    setReviewModal(null); // Close modal
+                    setReviewData({ rating: 0, comment: "" }); // Reset review data
+                } else {
+                    toast.error("Failed to submit the review.");
+                }
+            })
+            .catch((error) => {
+                console.error("Error submitting review:", error);
+                toast.error("An error occurred while submitting the review.");
+            });
+    };
+
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/Reviews`)
+            .then((res) => res.json())
+            .then((data) => {
+                setReviews(data);
+            })
+            .catch((error) => {
+                console.error("Error fetching rooms:", error);
+                toast.error("Failed to fetch booking data.");
+            });
+    }, [user.email]);
     return (
         <div className="p-6">
             <h2 className="text-3xl font-semibold text-center text-gray-600 mb-6">
@@ -115,14 +205,14 @@ const MyBookings = () => {
                                 <td className="py-3 px-4 text-center">{room.size}</td>
                                 <td className="py-3 px-4 text-center">
                                     <button className="btn btn-outline btn-sm text-gray-700 border-gray-700 hover:bg-gray-700 hover:text-white">
-                                        ({room.reviews} Reviews)
+                                        ({reviews.length} Reviews)
                                     </button>
                                 </td>
                                 <td className="py-3 px-4 text-center">{room.beds}</td>
                                 <td className="py-3 px-4 text-center relative">
                                     <div className="flex gap-4 justify-center">
                                         <button className="relative flex flex-col items-center group">
-                                            <MdOutlineReviews className="text-blue-600 hover:text-red-800 text-2xl" />
+                                            <MdOutlineReviews onClick={() => setReviewModal(room)} className="text-blue-600 hover:text-red-800 text-2xl" />
                                             <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                 Review
                                             </span>
@@ -137,7 +227,7 @@ const MyBookings = () => {
                                             </span>
                                         </button>
                                         <button className="relative flex flex-col items-center group">
-                                            <MdDeleteForever className="text-red-600 hover:text-red-800 text-2xl" />
+                                            <MdDeleteForever onClick={() => handleDelete(room._id)} className="text-red-600 hover:text-red-800 text-2xl" />
                                             <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
                                                 Delete
                                             </span>
@@ -167,14 +257,53 @@ const MyBookings = () => {
                         <div className="modal-action">
                             <button
                                 onClick={handleSaveUpdate}
-                                className="btn btn-primary"
+                                className="btn btn-success btn-sm text-white"
                             >
                                 Save
                             </button>
                             <button
                                 onClick={() => setSelectedBooking(null)}
-                                className="btn btn-secondary"
+                                className="btn btn-error btn-sm text-white"
                             >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Review Modal */}
+            {reviewModal && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <h3 className="text-lg font-bold">Give Your Review</h3>
+                        <p className="py-4">Room: {reviewModal.roomName}</p>
+                        <p>
+                            Username: <strong>{user.email}</strong>
+                        </p>
+                        <div className="my-4">
+                            <label className="block text-sm font-medium">Rating:</label>
+                            <ReactStars
+                                count={5}
+                                size={24}
+                                value={reviewData.rating}
+                                onChange={(newRating) => setReviewData((prev) => ({ ...prev, rating: newRating }))}
+                                half={false}
+                            />
+                        </div>
+                        <textarea
+                            className="textarea textarea-bordered w-full"
+                            placeholder="Write your review here..."
+                            value={reviewData.comment}
+                            onChange={(e) =>
+                                setReviewData((prev) => ({ ...prev, comment: e.target.value }))
+                            }
+                        />
+                        <div className="modal-action">
+                            <button onClick={handleReviewSubmit} className="btn btn-success btn-sm text-white">
+                                Submit
+                            </button>
+                            <button onClick={() => setReviewModal(null)} className="btn btn-error btn-sm text-white">
                                 Cancel
                             </button>
                         </div>

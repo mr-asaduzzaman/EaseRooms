@@ -3,7 +3,7 @@ import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthContext from "../Context/AuthContext";
-import { div } from "framer-motion/client";
+import { toast } from "react-toastify";
 
 const RoomDetails = () => {
     const room = useLoaderData();
@@ -61,7 +61,7 @@ const RoomDetails = () => {
             .then((res) => res.json())
             .then((data) => {
                 setIsBooked(true);
-                alert("Room successfully booked!");
+                toast.success('Successfully Booked!!')
                 setIsModalOpen(false);
                 navigate('/myBookings');
             })
