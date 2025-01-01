@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AllRoomCard from '../Components/Single/AllRoomCard';
+import { Helmet } from 'react-helmet';
 
 const Rooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -26,6 +27,11 @@ const Rooms = () => {
 
   return (
     <div className='bg-base-200'>
+        <Helmet>
+                <title>Rooms - EaseRooms</title>
+                <meta name="description" content="Welcome to the home page of My Website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
       <div className="bg-gradient-to-r from-gray-500 to-gray-800 py-6 my-2">
         <h1 className="text-5xl font-extrabold text-white text-center mb-6">Explore our Rooms</h1>
         <p className="text-xl text-white text-center">Explore our variety of rooms and find the one that suits you best!</p>

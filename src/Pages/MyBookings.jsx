@@ -5,6 +5,7 @@ import { FaRegEdit } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import ReactStars from "react-stars";
+import { Helmet } from 'react-helmet';
 
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
@@ -158,6 +159,11 @@ const MyBookings = () => {
     }, [user.email]);
     return (
         <div className="p-6">
+            <Helmet>
+                <title>My Bookings</title>
+                <meta name="description" content="Welcome to the home page of My Website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
             <h2 className="text-3xl font-semibold text-center text-gray-600 mb-6">
                 My Bookings: {rooms.length}
             </h2>
@@ -213,9 +219,9 @@ const MyBookings = () => {
                                     <div className="flex gap-4 justify-center">
                                         <button className="relative flex flex-col items-center group">
                                             <MdOutlineReviews onClick={() => setReviewModal(room)} className="text-blue-600 hover:text-red-800 text-2xl" />
-                                            <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                Review
-                                            </span>
+                                            <div className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+                                                Give Review
+                                            </div>
                                         </button>
                                         <button
                                             onClick={() => handleUpdate(room)}
@@ -223,13 +229,13 @@ const MyBookings = () => {
                                         >
                                             <FaRegEdit className="text-green-600 hover:text-red-800 text-2xl" />
                                             <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                Update
+                                                Update Date
                                             </span>
                                         </button>
                                         <button className="relative flex flex-col items-center group">
                                             <MdDeleteForever onClick={() => handleDelete(room._id)} className="text-red-600 hover:text-red-800 text-2xl" />
                                             <span className="absolute top-8 text-xs bg-black text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                                                Delete
+                                                Cancel Booking
                                             </span>
                                         </button>
                                     </div>

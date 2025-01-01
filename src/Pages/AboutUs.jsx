@@ -1,9 +1,15 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   return (
     <div className="bg-gray-50 py-6">
+      <Helmet>
+                <title>About Us - EaseRooms</title>
+                <meta name="description" content="Welcome to the home page of My Website" />
+                <meta name="robots" content="index, follow" />
+            </Helmet>
       {/* About Us Header */}
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-5xl font-extrabold text-gray-900 mb-8">
