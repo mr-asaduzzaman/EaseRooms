@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   return (
@@ -39,7 +40,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      
+
       {/* Call to Action Section */}
       <div className="bg-white py-6">
         <div className="container mx-auto px-4 text-center text-black">
@@ -50,9 +51,9 @@ const AboutUs = () => {
             Discover exceptional stays tailored just for you. Book now and
             experience ease like never before.
           </p>
-          <button className="px-6 py-3 bg-black text-white font-bold rounded-full shadow hover:bg-gray-200">
+          <Link to='/rooms'><button className="px-6 py-3 bg-black text-white font-bold rounded-full shadow hover:bg-gray-200">
             Get Started
-          </button>
+          </button></Link>
         </div>
       </div>
     </div>

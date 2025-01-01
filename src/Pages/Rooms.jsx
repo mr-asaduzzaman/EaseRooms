@@ -32,8 +32,8 @@ const Rooms = () => {
       </div>
 
       {/* Price Filter */}
-      <div className="flex justify-center space-x-4 mb-6">
-        <div className="flex items-center space-x-2">
+      <div className="flex flex-col sm:flex-row sm:justify-center sm:space-x-4 mb-6">
+        <div className="flex items-center space-x-2 mb-4 sm:mb-0">
           <label htmlFor="minPrice" className="text-black">Min Price: </label>
           <input
             id="minPrice"
@@ -57,7 +57,8 @@ const Rooms = () => {
         </div>
       </div>
 
-      <div className='grid grid-cols-3 gap-5 w-11/12 mx-auto'>
+      {/* Room Cards Grid */}
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-11/12 mx-auto'>
         {
           filteredRooms.map(room => (
             <AllRoomCard key={room._id} room={room} />
