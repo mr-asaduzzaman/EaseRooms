@@ -6,7 +6,7 @@ A modern, fully responsive hotel booking platform that provides users with an en
 The purpose of this project is to create a user-friendly and feature-rich platform for booking hotel rooms. It allows users to explore available rooms, view detailed information, manage their bookings, and post reviews, all within a secure and aesthetically pleasing interface.
 
 ## Live URL
-[EaseRooms](https://your-live-url-here.com)
+[EaseRooms](https://ease-room.web.app)
 
 ## Key Features
 - **Homepage Design:**
@@ -80,5 +80,5 @@ The purpose of this project is to create a user-friendly and feature-rich platfo
 3. Configure environment variables for Firebase and MongoDB.
 4. Start the server using `npm start` or `nodemon`.
 5. Start the client-side application using `npm start`.
-6. Access the live platform at [EaseRooms](http://localhost:3000).
+6. Access the live platform at [EaseRooms](https://ease-room.web.app).
 
