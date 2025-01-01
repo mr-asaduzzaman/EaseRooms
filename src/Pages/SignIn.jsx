@@ -16,14 +16,14 @@ const SignIn = () => {
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password)
+        // console.log(email, password)
         LoginUser(email, password)
             .then(response => {
-                console.log(response.user)
+                // console.log(response.user)
                 Navigate(from)
             })
             .catch(error => {
-                console.log(error.message)
+                // console.log(error.message)
             })
     }
     const pageVariants = {
@@ -35,7 +35,7 @@ const SignIn = () => {
     const handleGoogleSignIn = () => {
         googleLogin()
             .then((result) => {
-                console.log(result.user);
+                // console.log(result.user);
                 Navigate(from)
             })
             .catch((error) => {

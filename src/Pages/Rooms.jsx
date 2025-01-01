@@ -9,7 +9,7 @@ const Rooms = () => {
 
   // Fetch rooms from the API
   useEffect(() => {
-    fetch("http://localhost:5000/Rooms")
+    fetch("https://ease-room-server.vercel.app/Rooms")
       .then((res) => res.json())
       .then((data) => {
         setRooms(data);

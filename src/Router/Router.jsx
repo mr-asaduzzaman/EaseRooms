@@ -28,7 +28,7 @@ const router = createBrowserRouter([
       {
         path: "/rooms/:id",
         element: <PrivetRoute><RoomDetails></RoomDetails></PrivetRoute>,
-        loader: ({params}) => fetch(`http://localhost:5000/rooms/${params.id}`)
+        loader: ({params}) => fetch(`https://ease-room-server.vercel.app/rooms/${params.id}`)
       },
       {
         path: "/aboutUs",
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
       {
         path: "/reviews",
         element: <Reviews></Reviews>,
-        loader: () => fetch('http://localhost:5000/Reviews')
+        loader: () => fetch('https://ease-room-server.vercel.app/Reviews')
       },      
       {
         path: "/signIn",

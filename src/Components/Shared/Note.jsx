@@ -14,7 +14,7 @@ const MyBookings2 = () => {
     const [reviewModal, setReviewModal] = useState(null); // Review Modal State
 
     useEffect(() => {
-        fetch(`http://localhost:5000/BookedRooms?email=${user.email}`)
+        fetch(`https://ease-room-server.vercel.app/BookedRooms?email=${user.email}`)
             .then((res) => res.json())
             .then((data) => setRooms(data))
             .catch((error) => {

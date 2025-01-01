@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import ReactStars from "react-stars";
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
@@ -17,7 +18,7 @@ const MyBookings = () => {
     const [reviewData, setReviewData] = useState({ rating: 0, comment: "" });
 
     useEffect(() => {
-        fetch(`http://localhost:5000/BookedRooms?email=${user.email}`)
+        fetch(`https://ease-room-server.vercel.app/BookedRooms?email=${user.email}`)
             .then((res) => res.json())
             .then((data) => {
                 setRooms(data);
@@ -43,7 +44,7 @@ const MyBookings = () => {
         }
 
         // Make the PATCH request to update the booking date
-        fetch(`http://localhost:5000/BookedRooms/${selectedBooking._id}`, {
+        fetch(`https://ease-room-server.vercel.app/BookedRooms/${selectedBooking._id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ const MyBookings = () => {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/BookedRooms/${id}`, {
+                fetch(`https://ease-room-server.vercel.app/BookedRooms/${id}`, {
                     method: 'DELETE',
                 })
                     .then(res => res.json())
@@ -122,7 +123,7 @@ const MyBookings = () => {
             timestamp: new Date().toISOString(),
         };
 
-        fetch(`http://localhost:5000/reviews`, {
+        fetch(`https://ease-room-server.vercel.app/reviews`, {
             method: "POST",
             headers:
                 { "Content-Type": "application/json" },
@@ -130,7 +131,7 @@ const MyBookings = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data)
+                // console.log(data)
                 if (data.insertedId) {
                     alert("Review submitted successfully!");
                     setReviewModal(null); // Close modal
@@ -147,7 +148,7 @@ const MyBookings = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/Reviews`)
+        fetch(`https://ease-room-server.vercel.app/Reviews`)
             .then((res) => res.json())
             .then((data) => {
                 setReviews(data);
@@ -210,9 +211,11 @@ const MyBookings = () => {
                                 <td className="py-3 px-4 text-center">{room.bookingDate}</td>
                                 <td className="py-3 px-4 text-center">{room.size}</td>
                                 <td className="py-3 px-4 text-center">
-                                    <button className="btn btn-outline btn-sm text-gray-700 border-gray-700 hover:bg-gray-700 hover:text-white">
-                                        ({reviews.length} Reviews)
-                                    </button>
+                                    <Link to='/reviews'>
+                                        <button className="btn btn-outline btn-sm text-gray-700 border-gray-700 hover:bg-gray-700 hover:text-white">
+                                            ({reviews.length} Reviews)
+                                        </button>
+                                    </Link>
                                 </td>
                                 <td className="py-3 px-4 text-center">{room.beds}</td>
                                 <td className="py-3 px-4 text-center relative">

@@ -53,7 +53,7 @@ const SignUp = () => {
         // If validation is successful, proceed with user creation
         createUser(email, password)
             .then((result) => {
-                console.log(result.user);
+                // console.log(result.user);
                 navigate('/');
             })
             .catch((error) => {
@@ -64,7 +64,7 @@ const SignUp = () => {
     const handleGoogleSignUp = () => {
         googleLogin()
             .then((result) => {
-                console.log(result.user);
+                // console.log(result.user);
             })
             .catch((error) => {
                 alert(error.message);

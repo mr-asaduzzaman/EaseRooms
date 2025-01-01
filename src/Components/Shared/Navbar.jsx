@@ -96,35 +96,10 @@ const Navbar = () => {
                 </div>
             </div>
             {/* Navbar Center for Desktop */}
-            <div className="navbar-center hidden lg:flex w-full justify-center">
+            <div className="navbar-center hidden lg:flex w-100% justify-center">
                 <ul className="menu menu-horizontal px-1">{Links}</ul>
             </div>
-            {/* Navbar End for Desktop */}
-            <div className="navbar-end hidden lg:flex items-center gap-4">
-                {user ? (
-                    <div className="flex gap-2 items-center">
-                        <div>{user.displayName}</div>
-                        <button
-                            onClick={handleLogout}
-                            className="btn btn-sm btn-outline bg-gradient-to-bl from-red-300 to-rwd-500 text-white">
-                            Log Out
-                        </button>
-                    </div>
-                ) : (
-                    <div className="flex flex-col-1 gap-5">
-                        <Link
-                            to="/signUp"
-                            className="btn btn-sm btn-outline bg-gradient-to-bl from-green-300 to-green-500 text-white">
-                            Sign Up
-                        </Link>
-                        <Link
-                            to="/signIn"
-                            className="btn btn-sm btn-outline bg-gradient-to-bl from-green-300 to-green-500 text-white">
-                            Sign In
-                        </Link>
-                    </div>
-                )}
-            </div>
+           
         </div>
     );
 };

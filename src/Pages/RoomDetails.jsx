@@ -16,7 +16,7 @@ const RoomDetails = () => {
     const [bookedRooms, setBookedRooms] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/BookedRooms`)
+        fetch(`https://ease-room-server.vercel.app/BookedRooms`)
             .then((res) => res.json())
             .then((data) => setBookedRooms(data))
             .catch((error) => console.error("Error fetching booked rooms:", error));
@@ -51,7 +51,7 @@ const RoomDetails = () => {
             bookingDate: selectedDate,
         };
 
-        fetch('http://localhost:5000/BookedRooms', {
+        fetch('https://ease-room-server.vercel.app/BookedRooms', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -119,30 +119,37 @@ const RoomDetails = () => {
 
             {isModalOpen && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white w-5/12 rounded-lg shadow-lg p-5">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4">Booking Summary</h2>
+                    <div className="bg-white w-11/12 sm:w-9/12 md:w-7/12 lg:w-5/12 rounded-lg shadow-lg p-5 sm:p-6 md:p-8">
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">Booking Summary</h2>
                         <div>
-                            <img className="h-44 w-full rounded-md" src={image} alt={name} />
+                            <img className="h-44 sm:h-60 w-full rounded-md object-cover" src={image} alt={name} />
                         </div>
                         <div className="mt-5">
-                            <p><span className="font-semibold">Price:</span> ${price} / Night</p>
-                            <p><span className="font-semibold">Room Size:</span> {size}</p>
-                            <p><span className="font-semibold">Room Name:</span> {name}</p>
-                            <p><span className="font-semibold">Max Occupancy:</span> {occupancy}</p>
-
+                            <p>
+                                <span className="font-semibold">Price:</span> ${price} / Night
+                            </p>
+                            <p>
+                                <span className="font-semibold">Room Size:</span> {size}
+                            </p>
+                            <p>
+                                <span className="font-semibold">Room Name:</span> {name}
+                            </p>
+                            <p>
+                                <span className="font-semibold">Max Occupancy:</span> {occupancy}
+                            </p>
                             <div className="my-4">
                                 <DatePicker
                                     selected={selectedDate}
                                     onChange={(date) => setSelectedDate(date)}
                                     minDate={new Date()}
-                                    className="w-full text-black border p-1 rounded-md"
+                                    className="w-full text-black border p-2 rounded-md"
                                     placeholderText="Select Booking Date"
                                 />
                             </div>
                         </div>
-                        <div className="flex justify-between gap-4">
+                        <div className="flex flex-col sm:flex-row justify-between gap-4">
                             <button
-                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-gray-700"
+                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
                                 onClick={() => setIsModalOpen(false)}
                             >
                                 Cancel
@@ -157,6 +164,7 @@ const RoomDetails = () => {
                     </div>
                 </div>
             )}
+
         </>
     );
 };

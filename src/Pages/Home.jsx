@@ -32,13 +32,13 @@ const Modal = ({ isOpen, closeModal }) => {
                     <div className="flex gap-4">
                         <button 
                             onClick={closeModal} 
-                            className="btn btn-error text-white rounded-md p-2"
+                            className="btn btn-sm btn-error text-white rounded-md p-2"
                         >
                             Cancel
                         </button>
                         <a 
                             href="/rooms"
-                            className="btn btn-success text-white rounded-md p-2"
+                            className="btn btn-sm btn-success text-white rounded-md p-2"
                         >
                             Book Now
                         </a>
