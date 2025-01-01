@@ -36,7 +36,7 @@ const FeaturedRooms = () => {
             <div className="text-center mt-8">
                 <Link to="/rooms">
                     <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded hover:bg-blue-800">
-                        View All Rooms
+                        Explore All Rooms
                     </button>
                 </Link>
             </div>
