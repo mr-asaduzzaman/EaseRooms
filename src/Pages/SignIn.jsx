@@ -20,7 +20,7 @@ const SignIn = () => {
         LoginUser(email, password)
             .then(response => {
                 // console.log(response.user)
-                Navigate(from)
+                Navigate('/')
             })
             .catch(error => {
                 // console.log(error.message)
@@ -36,7 +36,7 @@ const SignIn = () => {
         googleLogin()
             .then((result) => {
                 // console.log(result.user);
-                Navigate(from)
+                Navigate('/')
             })
             .catch((error) => {
                 alert(error.message);

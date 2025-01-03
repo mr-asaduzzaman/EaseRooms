@@ -15,7 +15,7 @@ const MapComponent = () => {
     const hotelPosition = [24.2515, 89.9198]; // Replace with the hotel's actual coordinates (latitude, longitude)
 
     return (
-        <div className="map-container" style={{ height: '400px', width: '80%', margin: 'auto', padding:'10px', backgroundColor:'black', borderRadius: '5px', marginBottom: '20px'}}>
+        <div className="map-container" style={{ height: '400px', width: '80%', margin: 'auto', padding:'5px', backgroundColor:'black', borderRadius: '5px', marginBottom: '20px'}}>
             <MapContainer
                 center={hotelPosition}
                 zoom={13}

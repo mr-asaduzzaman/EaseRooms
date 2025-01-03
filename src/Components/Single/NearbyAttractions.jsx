@@ -20,13 +20,13 @@ const NearbyAttractions = () => {
     ];
 
     return (
-        <div className="attractions-section bg-gradient-to-r from-blue-100 to-purple-100 py-10">
-            <h2 className="text-3xl font-bold text-center mb-6">Explore Nearby Attractions</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="reviews-section bg-gray-200 py-10">
+            <h2 className="text-4xl font-semibold text-center text-gray-800 mb-8">Nearby Attractions</h2>
+            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {attractions.map((attraction, index) => (
                     <div
                         key={index}
-                        className="bg-white shadow-lg p-6 rounded-lg border-l-4 border-blue-400"
+                        className="border-l-4 border-blue-400 bg-gray-100 shadow-md p-6 rounded-lg text-center hover:shadow-xl transition-shadow duration-300"
                     >
                         <h3 className="text-xl font-bold mb-2">{attraction.name}</h3>
                         <p className="text-gray-500 mb-1">{attraction.distance}</p>

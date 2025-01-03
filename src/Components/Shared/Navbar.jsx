@@ -23,6 +23,9 @@ const Navbar = () => {
             <button className='btn btn-sm btn-outline bg-gradient-to-bl from-gray-900 to-gray-500 text-gray-300'>
                 <Link to='/aboutUs'>About Us</Link>
             </button>
+            <button className='btn btn-sm btn-outline bg-gradient-to-bl from-gray-900 to-gray-500 text-gray-300'>
+                <Link to='/reviews'>Reviews</Link>
+            </button>
             <div className='flex gap-5'>
                 {!user ? (
                     <>

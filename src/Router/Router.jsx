@@ -10,6 +10,7 @@ import AboutUs from "../Pages/AboutUs";
 import Rooms from "../Pages/Rooms";
 import RoomDetails from "../Pages/RoomDetails";
 import Reviews from "../Components/Single/Reviews";
+import ReviewComponent from "../Components/Single/ReviewCard";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/reviews",
-        element: <Reviews></Reviews>,
+        element: <ReviewComponent></ReviewComponent>,
         loader: () => fetch('https://ease-room-server.vercel.app/Reviews')
       },      
       {

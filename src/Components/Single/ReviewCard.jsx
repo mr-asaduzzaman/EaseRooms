@@ -1,116 +1,46 @@
-import React from 'react';
-import { FaStar, FaUserAlt, FaMapMarkerAlt } from 'react-icons/fa'; // Importing icons
+import React, { useState } from 'react';
 
-const ReviewCard = ({ rating, comment, roomName, userName, location, time }) => {
-  return (
-    <div className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-xl rounded-lg p-6 max-w-sm mx-auto mb-8 transition-transform transform hover:scale-105">
-      {/* User Info */}
-      <div className="flex items-center mb-4">
-        
-        <div className="ml-4">
-          <h3 className="text-xl font-semibold text-gray-800">{userName}</h3>
-        </div>
-      </div>
-
-      {/* Room Name */}
-      <div className="mb-4">
-        <h2 className="text-2xl font-semibold text-gray-900">{roomName}</h2>
-      </div>
-
-      {/* Rating */}
-      <div className="flex items-center mb-4">
-        {[...Array(5)].map((_, index) => (
-          <FaStar
-            key={index}
-            className={`text-2xl ${index < rating ? 'text-yellow-400' : 'text-gray-300'}`}
-          />
-        ))}
-      </div>
-
-      {/* Review Comment */}
-      <p className="text-lg text-gray-700 mb-4">{comment}</p>
-
-      {/* Review Time */}
-      <div className="text-sm text-gray-500 italic">{time}</div>
-    </div>
-  );
-};
-
-const Reviews = () => {
+const ReviewComponent = () => {
   // Fake review data
-  const reviews = [
-    {
-      roomId: "1",
-      rating: 5,
-      comment: "Amazing stay! The room was spacious and well-kept. The service was exceptional. Will definitely come back!",
-      roomName: "Skyline Penthouse",
-      userName: "Olivia Brown",
-      location: "Los Angeles, USA",
-      time: "3 hours ago"
-    },
-    {
-      roomId: "2",
-      rating: 4,
-      comment: "Great location and comfort. The room was clean and cozy, though the Wi-Fi could be faster. Overall, very pleased with my stay.",
-      roomName: "Cozy Cabin",
-      userName: "Ethan Davis",
-      location: "Austin, USA",
-      time: "1 day ago"
-    },
-    {
-      roomId: "3",
-      rating: 3,
-      comment: "It was a decent room. A bit smaller than expected and the air conditioning was not working well. Fine for a short stay though.",
-      roomName: "Garden View Room",
-      userName: "Sophia Martinez",
-      location: "Barcelona, Spain",
-      time: "2 days ago"
-    },
-    {
-      roomId: "4",
-      rating: 5,
-      comment: "The best stay ever! Comfortable, stylish, and the service was top-notch. Highly recommend for a luxury experience.",
-      roomName: "Royal Suite",
-      userName: "Liam Johnson",
-      location: "London, UK",
-      time: "5 days ago"
-    },
-    {
-      roomId: "5",
-      rating: 2,
-      comment: "The room was fine, but there was a lot of street noise, and the bathroom had a few issues. Not great for the price.",
-      roomName: "Budget Room",
-      userName: "Ava Wilson",
-      location: "Toronto, Canada",
-      time: "1 week ago"
-    },
-    {
-        roomId: "3",
-        rating: 3,
-        comment: "It was a decent room. A bit smaller than expected and the air conditioning was not working well. Fine for a short stay though.",
-        roomName: "Garden View Room",
-        userName: "Sophia Martinez",
-        location: "Barcelona, Spain",
-        time: "2 days ago"
-      }
+  const fakeReviews = [
+    { _id: 1, image:'https://i.ibb.co.com/JyXsrZV/istockphoto-174767532-612x612.jpg', name: 'Deluxe Suite', comment: 'Great place to stay!', rating: 5 },
+    { _id: 2, image:'https://i.ibb.co.com/tZhgWnq/istockphoto-466503537-612x612.jpg', name: 'Executive Room', comment: 'Loved the service and ambiance.', rating: 4 },
+    { _id: 3, image:'https://i.ibb.co.com/P4t4fw8/istockphoto-1316852690-612x612.jpg', name: 'Standard Room', comment: 'Very comfortable and affordable.', rating: 5 },
+    { _id: 4, image:'https://i.ibb.co.com/z6x2jBW/istockphoto-1139706845-612x612.jpg', name: 'Presidential Suite', comment: 'Loved the service and ambiance.', rating: 4 },
+    { _id: 5, image:'https://i.ibb.co.com/P4t4fw8/istockphoto-1316852690-612x612.jpg', name: 'Family Suite', comment: 'Had a good time. Will come back again.', rating: 4 },
+    { _id: 6, image:'https://i.ibb.co.com/tZhgWnq/istockphoto-466503537-612x612.jpg', name: 'Oceanview Room', comment: 'Great place to stay!', rating: 4 },
   ];
 
+  // State for storing reviews
+  const [reviews] = useState(fakeReviews);
+
   return (
-    <div className="container mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">Guest Reviews</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {reviews.map((review, index) => (
-          <ReviewCard
-            key={index}
-            rating={review.rating}
-            comment={review.comment}
-            roomName={review.roomName}
-            time={review.time}
-          />
+    <div className="reviews-section py-10 bg-gray-50">
+      <h2 className="text-4xl font-semibold text-center text-gray-800 mb-8">Customer Reviews</h2>
+
+      {/* Display reviews */}
+      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {reviews.map((review) => (
+          <div key={review._id} className="flex items-center gap-6 bg-white rounded-lg shadow-xl hover:shadow-2xl transition duration-300 p-2 border-2 border-transparent hover:border-indigo-500">
+            {/* Review Image */}
+            <div className='w-36 h-32 overflow-hidden rounded-lg shadow-md'>
+              <img className='w-full h-full object-cover' src={review.image} alt={review.name} />
+            </div>
+
+            {/* Review Details */}
+            <div className="flex-1">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-3">{review.name}</h3>
+              <p className="text-gray-600 text-lg mb-4">{review.comment}</p>
+              <div className="flex items-center space-x-1">
+                <span className="text-yellow-500 text-xl">★</span>
+                <span className="text-gray-700 text-xl">{review.rating}/5 Reviews</span>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
   );
 };
 
-export default Reviews;
+export default ReviewComponent;

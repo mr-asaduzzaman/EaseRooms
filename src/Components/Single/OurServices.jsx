@@ -12,9 +12,11 @@ const OurServices = () => {
     ];
 
     return (
-        <div className="services-section bg-white py-10">
-            <h2 className="text-3xl font-bold text-center mb-6">Our Exclusive Services</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="reviews-section py-10 bg-gray-50">
+            <h2 className="text-4xl font-semibold text-center text-gray-800 mb-8">Our Exclusive Services</h2>
+
+            {/* Display reviews */}
+            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service, index) => (
                     <div
                         key={index}

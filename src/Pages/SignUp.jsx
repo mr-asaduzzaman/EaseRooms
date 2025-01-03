@@ -64,6 +64,7 @@ const SignUp = () => {
     const handleGoogleSignUp = () => {
         googleLogin()
             .then((result) => {
+                navigate('/')
                 // console.log(result.user);
             })
             .catch((error) => {

@@ -26,7 +26,7 @@ const Rooms = () => {
   };
 
   return (
-    <div className='bg-base-200'>
+    <div className='bg-base-200 mb-10'>
         <Helmet>
                 <title>Rooms - EaseRooms</title>
                 <meta name="description" content="Welcome to the home page of My Website" />
